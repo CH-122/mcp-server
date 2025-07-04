@@ -1,0 +1,226 @@
+# MCP 服务器开发规则
+
+你是一个专精于 MCP（Model Context Protocol）服务器开发的专家，具备深厚的 TypeScript、Node.js 和 MCP SDK 知识。
+
+## 🎯 核心技术栈
+
+- **运行时**: Node.js + TypeScript (ES2022/NodeNext)
+- **包管理**: pnpm workspace (monorepo 架构)
+- **MCP**: @modelcontextprotocol/sdk
+- **验证**: zod + zod-to-json-schema
+- **数据库**: MySQL, PostgreSQL, SQLite
+- **工具**: prettier, shx, cross-env
+
+## 📋 代码风格与结构
+
+### TypeScript 配置
+
+- 使用 `target: ES2022` 和 `module: NodeNext`
+- 启用严格模式 (`strict: true`)
+- 使用 ESM 模块系统
+- 支持 JSON 模块导入 (`resolveJsonModule: true`)
+
+### 代码结构原则
+
+- **函数式编程**: 优先使用函数式和声明式编程模式，避免类
+- **模块化**: 遵循 DRY 原则，避免重复代码
+- **文件组织**: 每个文件包含相关功能，如工具定义、类型、辅助函数
+- **命名规范**: 使用描述性变量名，带有辅助动词（如 `isLoading`, `hasError`）
+
+### 目录命名规范
+
+- 使用小写字母和连字符分隔 (如 `database-search`, `github-search`)
+- 优先使用具名导出 (`export function`)
+
+### 导入和导出
+
+- 使用 ESM 语法 (`import`/`export`)
+- 文件扩展名使用 `.js` (编译后的文件)
+- 使用具名导出而非默认导出
+
+## 🛠️ MCP 服务器最佳实践
+
+### 服务器初始化
+
+```typescript
+#!/usr/bin/env node
+
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+
+const server = new McpServer({
+  name: 'mcp-server-名称',
+  version: packageJson.version,
+});
+```
+
+### 工具定义规范
+
+- **工具名称**: 使用下划线分隔的描述性名称 (如 `query_database`, `search_github`)
+- **工具描述**: 使用中文描述，清晰说明工具功能
+- **参数验证**: 必须使用 zod 进行参数验证和类型安全
+- **错误处理**: 提供详细的错误信息，包含上下文
+
+### 参数定义模式
+
+```typescript
+server.tool(
+  'tool_name',
+  '工具功能的中文描述',
+  {
+    param: z.string().describe('参数的中文描述'),
+    optional_param: z.string().optional().describe('可选参数描述'),
+    default_param: z.boolean().optional().default(false).describe('带默认值的参数'),
+  },
+  async ({ param, optional_param, default_param }) => {
+    // 工具实现逻辑
+  }
+);
+```
+
+### 响应格式标准
+
+```typescript
+return {
+  content: [
+    {
+      type: 'text',
+      text: JSON.stringify(result, null, 2),
+    },
+  ],
+};
+```
+
+## 🔧 开发配置
+
+### package.json 脚本规范
+
+- `build`: TypeScript 编译 + 权限设置
+- `watch`: 监视模式编译
+- `dev`: 开发模式运行
+- `start:env`: 环境特定启动脚本
+
+### 必需依赖
+
+```json
+{
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.3",
+    "zod": "^3.25.67",
+    "zod-to-json-schema": "^3.24.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "typescript": "^5.8.3",
+    "shx": "^0.4.0"
+  }
+}
+```
+
+### bin 配置
+
+```json
+{
+  "bin": {
+    "mcp-server-服务名": "dist/index.js"
+  },
+  "files": ["dist", "config"]
+}
+```
+
+## 🚀 性能与安全
+
+### 连接管理
+
+- 使用连接池管理数据库连接
+- 实现适当的资源清理
+- 添加连接超时和重试机制
+
+### 数据验证与安全
+
+- 所有输入参数使用 zod 验证
+- SQL 查询防注入检查
+- 限制查询结果数量
+- 敏感信息环境变量管理
+
+### 错误处理模式
+
+```typescript
+try {
+  // 业务逻辑
+} catch (error) {
+  throw new Error(`操作失败: ${error instanceof Error ? error.message : '未知错误'}`);
+}
+```
+
+## 📁 项目结构规范
+
+### Monorepo 包结构
+
+```
+packages/
+├── 服务名/
+│   ├── src/
+│   │   ├── index.ts          # 主入口文件
+│   │   ├── manager.ts        # 配置管理
+│   │   ├── connection.ts     # 连接管理
+│   │   └── service.ts        # 业务逻辑
+│   ├── config/               # 配置文件
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── README.md
+```
+
+### 配置文件管理
+
+- 使用环境特定配置文件
+- 支持 `.env` 文件加载
+- 提供配置模板和示例
+
+## 🔍 代码质量
+
+### 代码格式化
+
+- 使用 prettier 进行代码格式化
+- 配置一致的代码风格
+
+### 类型安全
+
+- 严格的 TypeScript 配置
+- 避免使用 `any` 类型
+- 为所有函数提供类型注解
+
+### 文档规范
+
+- 工具和参数提供详细的中文描述
+- README 文档包含使用示例
+- 代码注释使用中文
+
+## 🌐 环境与部署
+
+### 环境管理
+
+- 支持 development/test/production 环境
+- 环境特定的配置和脚本
+- 使用 cross-env 确保跨平台兼容性
+
+### 构建与发布
+
+- TypeScript 编译到 `dist` 目录
+- 可执行文件权限设置
+- 包含必要的文件到发布包
+
+## 💡 开发提示
+
+1. **工具设计**: 每个工具应该有单一职责，功能明确
+2. **参数设计**: 参数名称要直观，描述要详细
+3. **错误信息**: 提供有用的错误信息和调试上下文
+4. **性能考虑**: 合理限制查询结果，避免资源耗尽
+5. **用户体验**: 提供清晰的响应格式和状态信息
+
+遵循这些规则确保 MCP 服务器代码的一致性、可维护性和高质量。
+description:
+globs:
+alwaysApply: false
+
+---
