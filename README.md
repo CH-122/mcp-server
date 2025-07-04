@@ -76,6 +76,7 @@ pnpm run format:check
 **功能**: 支持自然语言查询多种数据库，提供智能 SQL 转换
 
 **核心特性**:
+
 - 🗄️ 多数据库支持（MySQL、PostgreSQL、SQLite）
 - 🧠 自然语言转 SQL（基于 OpenAI GPT）
 - 🔒 安全 SQL 检查和过滤
@@ -83,6 +84,7 @@ pnpm run format:check
 - 🔄 连接池和资源管理
 
 **工具列表**:
+
 - `query_database` - 自然语言数据库查询
 - `list_databases` - 列出可用数据库
 - `get_table_structure` - 获取表结构
@@ -95,16 +97,19 @@ pnpm run format:check
 **功能**: 搜索 GitHub 仓库、代码、问题和用户信息
 
 **核心特性**:
+
 - 🔍 全面搜索（仓库、代码、问题、用户）
 - 📄 分页支持
 - 🔑 GitHub API 集成
 - 📊 结构化数据返回
 
 **工具列表**:
+
 - `search_github` - 搜索 GitHub 内容
 - `get_user_info` - 获取用户详细信息
 
 **使用示例**:
+
 ```bash
 cd packages/github-search
 
@@ -116,21 +121,28 @@ pnpm run build
 node dist/index.js
 ```
 
+**代码来源**:
+
+[代码来源](https://github.com/vaebe/mcp)
+
 ### 3. Time MCP Server
 
 **功能**: 获取当前时间和进行时区转换
 
 **核心特性**:
+
 - 🕐 获取当前时间
 - 🌍 时区转换
 - 🔧 灵活的时区配置
 - 📅 标准时间格式
 
 **工具列表**:
+
 - `get_current_time` - 获取当前时间
 - `convert_time` - 时区间时间转换
 
 **使用示例**:
+
 ```bash
 cd packages/time
 
@@ -138,6 +150,10 @@ cd packages/time
 pnpm run build
 node dist/index.js
 ```
+
+**代码来源**:
+
+[代码来源](https://github.com/vaebe/mcp)
 
 ## 🔧 开发指南
 
@@ -189,7 +205,7 @@ pnpm run test
       }
     },
     "github-search": {
-      "command": "node", 
+      "command": "node",
       "args": ["path/to/packages/github-search/dist/index.js"],
       "env": {
         "GITHUB_TOKEN": "your_token"
@@ -221,4 +237,4 @@ ISC License
 
 ---
 
-> **注意**: 这些是 MCP (Model Context Protocol) 服务器，需要与支持 MCP 的客户端（如 Claude Desktop）配合使用。 
+> **注意**: 这些是 MCP (Model Context Protocol) 服务器，需要与支持 MCP 的客户端（如 Claude Desktop）配合使用。
