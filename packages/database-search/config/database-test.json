@@ -1,0 +1,29 @@
+{
+  "environment": {
+    "openaiApiKey": "${OPENAI_API_KEY}",
+    "defaultDatabase": "test-sqlite",
+    "maxQueryResults": 10,
+    "enableCache": false,
+    "logLevel": "debug"
+  },
+  "databases": [
+    {
+      "id": "test-sqlite",
+      "name": "测试SQLite数据库",
+      "type": "sqlite",
+      "database": "${DB_TEST_SQLITE_DATABASE:-./test.db}",
+      "databases": ["test"]
+    },
+    {
+      "id": "test-mysql",
+      "name": "测试MySQL数据库",
+      "type": "mysql",
+      "host": "${DB_TEST_MYSQL_HOST:-localhost}",
+      "port": 3306,
+      "username": "${DB_TEST_MYSQL_USERNAME:-test}",
+      "password": "${DB_TEST_MYSQL_PASSWORD:-test}",
+      "database": "${DB_TEST_MYSQL_DATABASE:-test}",
+      "databases": ["test"]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+# ===========================================
+# 数据库搜索服务环境变量配置指引
+# ===========================================
+# 本项目支持分环境的环境变量配置
+# 
+# 环境变量文件按环境分离：
+# - 开发环境：复制 env-templates/development.env.template 为 .env.development
+# - 测试环境：复制 env-templates/test.env.template 为 .env.test  
+# - 生产环境：复制 env-templates/production.env.template 为 .env.production
+#
+# 注意：.env* 文件不应被提交到版本控制系统
+#
+# 快速设置：
+# npm run setup-env      # 创建所有环境的配置文件
+# npm run setup-env:dev  # 仅创建开发环境配置
+# npm run setup-env:test # 仅创建测试环境配置
+# npm run setup-env:prod # 仅创建生产环境配置
+#
+# 使用方法：
+# 1. npm run dev         # 开发环境 (自动加载 .env.development)
+# 2. npm run test:run    # 测试环境 (自动加载 .env.test)
+# 3. npm run start:prod  # 生产环境 (自动加载 .env.production)
+
+# ===========================================
+# 通用配置
+# ===========================================
+
+# OpenAI API 密钥（必需）
+OPENAI_API_KEY=your_openai_api_key_here
+
+# 默认数据库连接ID（可选）
+DEFAULT_DATABASE=local-mysql
+
+# 最大查询结果数（可选，默认100）
+MAX_QUERY_RESULTS=50
+
+# 是否启用缓存（可选，默认true）
+ENABLE_CACHE=true
+
+# 日志级别（可选，默认info）：debug, info, warn, error
+LOG_LEVEL=debug
+
+# ===========================================
+# 开发环境数据库配置
+# ===========================================
+
+# 本地 MySQL 数据库
+DB_LOCAL_MYSQL_HOST=localhost
+DB_LOCAL_MYSQL_PORT=3306
+DB_LOCAL_MYSQL_USERNAME=root
+DB_LOCAL_MYSQL_PASSWORD=your_mysql_password
+DB_LOCAL_MYSQL_DATABASE=learn-mysql
+DB_LOCAL_MYSQL_DATABASES=learn-mysql,test_db
+
+# ===========================================
+# 生产环境数据库配置
+# ===========================================
+
+# 生产 MySQL 数据库
+DB_PROD_MYSQL_HOST=your.production.mysql.host
+DB_PROD_MYSQL_PORT=3306
+DB_PROD_MYSQL_USERNAME=prod_user
+DB_PROD_MYSQL_PASSWORD=your_production_mysql_password
+DB_PROD_MYSQL_DATABASE=production
+DB_PROD_MYSQL_DATABASES=production,analytics,reporting
+
+# 生产 PostgreSQL 数据库
+DB_PROD_POSTGRES_HOST=your.production.postgres.host
+DB_PROD_POSTGRES_PORT=5432
+DB_PROD_POSTGRES_USERNAME=pg_user
+DB_PROD_POSTGRES_PASSWORD=your_production_postgres_password
+DB_PROD_POSTGRES_DATABASE=main
+DB_PROD_POSTGRES_DATABASES=main,warehouse,logs
+
+# ===========================================
+# 动态数据库配置示例
+# ===========================================
+# 您可以通过环境变量动态添加新的数据库连接
+# 格式：DB_{ID}_{PROPERTY}
+# 例如：
+
+# # 示例：添加新的Redis数据库
+# DB_REDIS_CACHE_HOST=localhost
+# DB_REDIS_CACHE_PORT=6379
+# DB_REDIS_CACHE_TYPE=redis
+# DB_REDIS_CACHE_NAME=Redis缓存数据库
+# DB_REDIS_CACHE_DATABASE=0
+# DB_REDIS_CACHE_USERNAME=
+# DB_REDIS_CACHE_PASSWORD=
+
+# # 示例：添加新的SQLite数据库
+# DB_LOCAL_SQLITE_HOST=
+# DB_LOCAL_SQLITE_TYPE=sqlite
+# DB_LOCAL_SQLITE_NAME=本地SQLite数据库
+# DB_LOCAL_SQLITE_DATABASE=/path/to/database.db
+# DB_LOCAL_SQLITE_USERNAME=
+# DB_LOCAL_SQLITE_PASSWORD=

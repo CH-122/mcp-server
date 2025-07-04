@@ -1,0 +1,31 @@
+{
+  "name": "@mcp/time",
+  "version": "0.0.1",
+  "bin": {
+    "mcp-server-time": "dist/index.js"
+  },
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && shx chmod +x dist/*.js",
+    "prepare": "pnpm run build",
+    "watch": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.3",
+    "dayjs": "^1.11.13",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
+  }
+}

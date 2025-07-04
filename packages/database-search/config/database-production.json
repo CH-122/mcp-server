@@ -1,0 +1,33 @@
+{
+  "environment": {
+    "openaiApiKey": "${OPENAI_API_KEY}",
+    "defaultDatabase": "prod-mysql",
+    "maxQueryResults": 200,
+    "enableCache": true,
+    "logLevel": "warn"
+  },
+  "databases": [
+    {
+      "id": "prod-mysql",
+      "name": "生产MySQL数据库",
+      "type": "mysql",
+      "host": "${DB_PROD_MYSQL_HOST}",
+      "port": 3306,
+      "username": "${DB_PROD_MYSQL_USERNAME}",
+      "password": "${DB_PROD_MYSQL_PASSWORD}",
+      "database": "${DB_PROD_MYSQL_DATABASE:-production}",
+      "databases": ["production", "analytics", "reporting"]
+    },
+    {
+      "id": "prod-postgres",
+      "name": "生产PostgreSQL数据库",
+      "type": "postgresql",
+      "host": "${DB_PROD_POSTGRES_HOST}",
+      "port": 5432,
+      "username": "${DB_PROD_POSTGRES_USERNAME}",
+      "password": "${DB_PROD_POSTGRES_PASSWORD}",
+      "database": "${DB_PROD_POSTGRES_DATABASE:-main}",
+      "databases": ["main", "warehouse", "logs"]
+    }
+  ]
+}

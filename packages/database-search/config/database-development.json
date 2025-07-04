@@ -1,0 +1,22 @@
+{
+  "environment": {
+    "openaiApiKey": "${OPENAI_API_KEY}",
+    "defaultDatabase": "local-mysql",
+    "maxQueryResults": 50,
+    "enableCache": true,
+    "logLevel": "debug"
+  },
+  "databases": [
+    {
+      "id": "local-mysql",
+      "name": "本地MySQL开发数据库",
+      "type": "mysql",
+      "host": "${DB_LOCAL_MYSQL_HOST:-localhost}",
+      "port": 3306,
+      "username": "${DB_LOCAL_MYSQL_USERNAME:-root}",
+      "password": "${DB_LOCAL_MYSQL_PASSWORD}",
+      "database": "${DB_LOCAL_MYSQL_DATABASE:-learn-mysql}",
+      "databases": ["learn-mysql"]
+    }
+  ]
+}
